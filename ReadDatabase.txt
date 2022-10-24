@@ -1,0 +1,45 @@
+package latuhansaja;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+public class ReadDatabase {
+
+    public static void lihatBuku() throws IOException {
+
+        FileReader reader;
+        BufferedReader file = null;
+
+        try {
+            reader = new FileReader("dataBase.txt");
+            file = new BufferedReader(reader);
+        } catch (Exception e) {
+            System.err.println("Database tidak di temukan\nSilahkan membuat database terlebih dahulu");
+        }
+        String data = file.readLine();
+
+        System.out.println("\n| No |\tTahun    |\tPenulis                   |\tMedia penerbit           |\tJudul buku              |");
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
+
+        int nomor = 0;
+        while (data != null) {
+            nomor++;
+            StringTokenizer token = new StringTokenizer(data, ",");
+
+            System.out.printf("| %d  ", nomor);
+            System.out.printf("|\t%-6s   ", token.nextToken());
+            System.out.printf("|\t%-26s", token.nextToken());
+            System.out.printf("|\t%-25s", token.nextToken());
+            System.out.printf("|\t%s", token.nextToken());
+
+            System.out.print("\n");
+
+            data = file.readLine();
+        }
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
+
+    }
+
+}

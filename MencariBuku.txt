@@ -1,0 +1,76 @@
+package latuhansaja;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+public class MencariBuku {
+
+    public static void cariBuku() throws IOException {
+
+        File file;
+        try {
+            file = new File("dataBase.txt");
+        } catch (Exception e) {
+            System.err.println("Database tidak di temukan\nSilahkan membuat database terlebih dahulu");
+        }
+
+        Scanner input = new Scanner(System.in);
+        System.out.print("\nSearch : ");
+        String search = MenambahDataBuku.tdkIsi("Search : ");
+        
+        String[] data = search.split("\\s");
+        cekBuku(data);
+
+    }
+
+    public static void cekBuku(String[] data) throws IOException {
+
+        FileReader reader;
+        BufferedReader file = null;
+        try {
+            reader = new FileReader("dataBase.txt");
+            file = new BufferedReader(reader);
+        } catch (Exception e) {
+            System.err.println("Database tidak di temukan\nSilahkan membuat database terlebih dahulu");
+        }
+
+        String database = file.readLine();
+
+        System.out.println("\n| No |\tTahun    |\tPenulis                   |\tMedia penerbit           |\tJudul buku              |");
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
+
+        boolean isExis;
+        int nomor = 0;
+        while (database != null) {
+
+            isExis = true;
+
+            for (String keywords : data) {
+                isExis = isExis && database.toLowerCase().contains(keywords.toLowerCase());
+            }
+
+            if (isExis) {
+                nomor++;
+                StringTokenizer token = new StringTokenizer(database, ",");
+
+                System.out.printf("| %d  ", nomor);
+                System.out.printf("|\t%-6s   ", token.nextToken());
+                System.out.printf("|\t%-26s", token.nextToken());
+                System.out.printf("|\t%-25s", token.nextToken());
+                System.out.printf("|\t%s", token.nextToken());
+                System.out.print("\n");
+            }
+
+            database = file.readLine();
+
+        }
+
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
+
+    }
+
+}

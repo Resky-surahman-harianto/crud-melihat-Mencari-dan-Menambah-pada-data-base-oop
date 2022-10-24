@@ -1,0 +1,69 @@
+package latuhansaja;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+public class LatuhanSaja {
+
+    public static void main(String[] args) throws IOException {
+
+        Scanner input = new Scanner(System.in);
+
+        boolean islanjud = true;
+        while (islanjud) {
+            System.out.println("\n1.Melihat seluruh buku");
+            System.out.println("2.Mencari buku di Database");
+            System.out.println("3.Menambah buku di database");
+
+            System.out.print("\nPilih : ");
+            String pilih = input.nextLine();
+
+            switch (pilih) {
+                case "1":
+                    System.out.println("\n=======================");
+                    System.out.println(" Melihat seluruh buku");
+                    System.out.println("=======================");
+                    ReadDatabase.lihatBuku();
+                    break;
+                case "2":
+                    System.out.println("\n============================");
+                    System.out.println(" Mencari buku di Database");
+                    System.out.println("============================");
+                    MencariBuku.cariBuku();
+                    break;
+                case "3":
+                    System.out.println("\n============================");
+                    System.out.println("3.Menambah buku di database");
+                    System.out.println("============================");
+                    MenambahDataBuku.MenambahBuku();
+                    break;
+                default:
+                    System.err.println("\nInput tidak di kenali");
+                    break;
+
+            }
+
+            islanjud = isUlang("Apakah anda ingin melanjudkan");
+
+        }
+
+    }
+
+    public static boolean isUlang(String mesage) {
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("\n" + mesage + "(Y/N)");
+        String data = input.nextLine();
+
+        while (!data.equalsIgnoreCase("y") && !data.equalsIgnoreCase("n")) {
+            System.err.println("Input tidak di kenali");
+            System.out.println("\n" + mesage + "(Y/N)");
+            data = input.nextLine();
+        }
+
+        return data.equalsIgnoreCase("y");
+
+    }
+
+}

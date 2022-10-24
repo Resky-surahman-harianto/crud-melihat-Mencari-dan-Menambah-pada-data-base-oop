@@ -1,0 +1,142 @@
+package latuhansaja;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.Year;
+import java.util.Scanner;
+
+public class MenambahDataBuku {
+
+    public static void MenambahBuku() throws IOException {
+
+        FileWriter wiri;
+        BufferedWriter file = null;
+        try {
+            wiri = new FileWriter("dataBase.txt", true);
+            file = new BufferedWriter(wiri);
+        } catch (Exception e) {
+            System.err.println("Database tidak di temukan\nSilahkan membuat database terlebih dahulu");
+        }
+
+        Scanner input = new Scanner(System.in);
+        String penulis, judul, penerbit, tahun;
+
+        System.out.print("\nMasukan nama penulis   : ");
+        penulis = tdkIsi("Masukan nama penulis   : ");
+
+        System.out.print("Masukan judul buku     : ");
+        judul = tdkIsi("Masukan judul buku     : ");
+
+        System.out.print("Masukan media penerbit : ");
+        penerbit = tdkIsi("Masukan media penerbit : ");
+
+        System.out.print("Masukan tahun terbit   : ");
+        tahun = cekTahun();
+
+        String[] data = {tahun + "," + penulis + "," + penerbit + "," + judul};
+
+        boolean isExis = cekBook(data);
+        if (!isExis) {
+
+            System.out.println("\n\nData yang telah anda masukan adalah : ");
+            System.out.println("===============================================");
+            System.out.println("Penulis buku   : " + penulis);
+            System.out.println("Judul buku     : " + judul);
+            System.out.println("Media penerbit : " + penerbit);
+            System.out.println("Tahun terbit   : " + tahun);
+            System.out.println("===============================================");
+
+            boolean tulis = LatuhanSaja.isUlang("Apakah anda yakin ingin menambahkan data tersebut");
+
+            if (tulis) {
+                file.write(tahun + "," + penulis + "," + penerbit + "," + judul);
+                file.newLine();
+                file.flush();
+            }
+
+        } else {
+            System.out.println("\n==================================================");
+            System.out.println("   Input tidak dapat di tambahkan\n   karena telah tersedia di database!!!");
+            System.out.println("==================================================");
+            System.out.println("\nSebagai berikut : ");
+            MencariBuku.cekBuku(data);
+        }
+
+    }
+
+    private static String cekTahun() {
+
+        Scanner input = new Scanner(System.in);
+
+        String tahun = input.nextLine();
+
+        boolean ulang = false;
+        while (!ulang) {
+            try {
+                Year.parse(tahun);
+                ulang = true;
+            } catch (Exception e) {
+                System.err.println("Tahun tidak valit");
+                System.out.print("Masukan tahun terbit   : ");
+                tahun = input.nextLine();
+            }
+
+        }
+
+        return tahun;
+
+    }
+
+    private static boolean cekBook(String[] array) throws IOException {
+
+        FileReader reader;
+        BufferedReader file = null;
+        try {
+            reader = new FileReader("dataBase.txt");
+            file = new BufferedReader(reader);
+        } catch (Exception e) {
+            System.err.println("database tidak di temukan");
+        }
+
+        String data = file.readLine();
+
+        boolean isExis = false;
+
+        while (data != null) {
+
+            isExis = true;
+            for (String keywords : array) {
+                isExis = isExis && data.toLowerCase().contains(keywords.toLowerCase());
+            }
+
+            if (isExis) {
+                break;
+            }
+
+            data = file.readLine();
+        }
+
+        return isExis;
+
+    }
+
+    public static String tdkIsi(String mesage) {
+
+        Scanner input = new Scanner(System.in);
+
+        String data = input.nextLine();
+
+        while (data.isEmpty()) {
+            System.err.println("Masukan input!!!");
+            System.out.print("\n" + mesage);
+            data = input.nextLine();
+        }
+
+        return data;
+
+    }
+
+}

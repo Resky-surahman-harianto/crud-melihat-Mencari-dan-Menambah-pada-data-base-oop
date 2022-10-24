@@ -1,0 +1,7 @@
+2012,fiersa besari,media kita,jejak langkah
+2001,Pramoedya Anantatoer,Gramedia,Bumi Manusia
+2009,purcell,wiley,calculus
+2019,faqihza,gramedia,belajar C++
+2019,faqihza,gramedia,belajar Python
+2019,faqihza,gramedia,belajar Java
+2022,Resky surahman harianto,Media kita,belajar java prosedur (dasar)
